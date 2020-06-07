@@ -9,7 +9,6 @@ import endMonth from 'date-fns/endOfMonth';
 import addDay from 'date-fns/addDays';
 import sameMonth from 'date-fns/isSameMonth';
 import sameDay from 'date-fns/isSameDay';
-import parse from 'date-fns/parse';
 import './styles.css';
 
 const Calendar = () => {
@@ -85,7 +84,7 @@ const Calendar = () => {
                                 ? "selected"
                                 : ""}`}
                         key={day}
-                        onClick={() => onDateClick(parse(auxDay))}>
+                        onClick={() => onDateClick(auxDay)}>
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
                     </div>
