@@ -9,6 +9,8 @@ import endMonth from 'date-fns/endOfMonth';
 import addDay from 'date-fns/addDays';
 import sameMonth from 'date-fns/isSameMonth';
 import sameDay from 'date-fns/isSameDay';
+import weekend from 'date-fns/isWeekend';
+
 import './styles.css';
 
 const Calendar = () => {
@@ -80,15 +82,19 @@ const Calendar = () => {
                     <div className={
                         `column cell ${!sameMonth(day, monthStart)
                             ? "disabled"
-                            : sameDay(day, selectedDate)
+                             :sameDay(day, selectedDate)
                                 ? "selected"
                                 : ""}`}
+                                id={`${weekend(day)?"weekendbg":""}`}
                         key={day}
                         onClick={() => onDateClick(auxDay)}>
-                        <span className="number">{formattedDate}</span>
+                        <span className={`number ${weekend(day)?"weekend":""}`}>{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
                     </div>
                 );
+                if(weekend(day)){
+                    console.log(day);
+                }
                 day = addDay(day, 1);
             }
             rows.push(

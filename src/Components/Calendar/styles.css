@@ -17,9 +17,6 @@
     font-feature-settings: 'liga';
 }
 
-
-/* GENERAL */
-
 * {
     box-sizing: border-box;
 }
@@ -76,6 +73,7 @@ header {
 }
 
 .calendar .header {
+    text-align: center;
     text-transform: uppercase;
     font-weight: 700;
     font-size: 115%;
@@ -103,9 +101,11 @@ header {
 }
 
 .calendar .days {
+    text-align: center;
     text-transform: uppercase;
-    font-weight: 400;
-    color: gray;
+    font-weight: bold;
+    background-color: blue;
+    color: white;
     font-size: 70%;
     padding: .75em 0;
     border-bottom: 1px solid lightgray;
@@ -121,14 +121,25 @@ header {
     transition: 0.25s ease-out;
 }
 
+#weekendbg {
+    position: relative;
+    height: 6em;
+    border-right: 1px solid lightgray;
+    overflow: hidden;
+    cursor: pointer;
+    background: rgb(243, 243, 243);
+    transition: 0.25s ease-out;
+}
+
 .calendar .body .cell:hover {
     background: whitesmoke;
     transition: 0.5s ease-out;
 }
 
 .calendar .body .selected {
-    border-left: 10px solid transparent;
-    border-image: linear-gradient(45deg, #1affa0 0%, #cff153 40%);
+    border-left: 10px solid blue;
+    /* border-image: linear-gradient(#1aff1a);
+    border-image: linear-gradient(45deg, #1affa0 0%, #cff153 40%); */
     border-image-slice: 1;
 }
 
@@ -145,11 +156,23 @@ header {
 }
 
 .calendar .body .cell .number {
+    text-align: start;
     position: absolute;
     font-size: 82.5%;
     line-height: 1;
     top: .75em;
-    right: .75em;
+    left: .75em;
+    font-weight: 700;
+}
+
+.calendar .body .cell .weekend {
+    color: blue;
+    text-align: start;
+    position: absolute;
+    font-size: 82.5%;
+    line-height: 1;
+    top: .75em;
+    left: .75em;
     font-weight: 700;
 }
 
@@ -164,6 +187,20 @@ header {
 }
 
 .calendar .body .cell .bg {
+    font-weight: 700;
+    line-height: 1;
+    color: #1affa0;
+    opacity: 0;
+    font-size: 5em;
+    position: absolute;
+    top: -.2em;
+    right: -.05em;
+    transition: .25s ease-out;
+    letter-spacing: -.07em;
+}
+
+.calendar .body .cell .weekendbg {
+    background-color: #777;
     font-weight: 700;
     line-height: 1;
     color: #1affa0;
