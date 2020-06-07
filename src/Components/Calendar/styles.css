@@ -181,6 +181,18 @@ header {
     visibility: hidden;
 }
 
+.calendar .body .temp {
+    bottom: 0.05em;
+    left: .75em;
+    position: absolute;
+    color: black;
+    font-weight: 400;
+}
+
+.calendar .body .notSelected {
+    display: none;
+}
+
 .calendar .body .disabled {
     color: lightgray;
     pointer-events: none;

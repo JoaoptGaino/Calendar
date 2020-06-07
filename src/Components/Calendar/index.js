@@ -12,10 +12,35 @@ import sameDay from 'date-fns/isSameDay';
 import weekend from 'date-fns/isWeekend';
 
 import './styles.css';
-
+import axios from 'axios';
 const Calendar = () => {
+    const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+    const API_KEY = '0b177100caf71a656b93bfd11c06f133';
+    const LOCATION_CODE = '5128581';
+    const FULL_API_URL = `${API_URL}?id=${LOCATION_CODE}&appid=${API_KEY}`;
+    const [temperature,setTemperature] = useState();
+    const [weather,setWeather] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    axios.get(FULL_API_URL)
+    .then(response => {
+        const temp = response.data.main.temp;
+        const city = response.data.name;
+        /* const date = response.data.dt_txt; */
+        const celsiusTemp = temp-273.15;
+        const desc = response.data.clouds.all;
+        var clouds = 'Sunny';
+        if(desc>50){
+            clouds = 'Cloudy'
+        }
+        const weatherDisplay = `Temperature = ${celsiusTemp.toFixed(1)}ºC , City=${city}, Weather:${clouds}`;
+        console.log(weatherDisplay)
+        setTemperature(celsiusTemp.toFixed(1));
+        setWeather(clouds);
+        console.log(weather);
+        
+    })
+    .catch(error=>console.log(`Error: ${error}`));
 
     const header = () => {
         const dateFormat = "MMMM yyyy";
@@ -73,6 +98,7 @@ const Calendar = () => {
         function onDateClick(day) {
             setSelectedDate(day);
         }
+        
 
         while (day <= endDate) {
             for (let i = 0; i < 7; i++) {
@@ -82,19 +108,17 @@ const Calendar = () => {
                     <div className={
                         `column cell ${!sameMonth(day, monthStart)
                             ? "disabled"
-                             :sameDay(day, selectedDate)
+                            : sameDay(day, selectedDate)
                                 ? "selected"
                                 : ""}`}
-                                id={`${weekend(day)?"weekendbg":""}`}
+                        id={`${weekend(day) ? "weekendbg" : ""}`}
                         key={day}
                         onClick={() => onDateClick(auxDay)}>
-                        <span className={`number ${weekend(day)?"weekend":""}`}>{formattedDate}</span>
+                        <span className={`number ${weekend(day) ? "weekend" : ""}`}>{formattedDate}</span>
+                        <span className={`${sameDay(day,selectedDate)?"temp":"notSelected"}`}>{weather} {temperature}ºC</span>
                         <span className="bg">{formattedDate}</span>
                     </div>
                 );
-                if(weekend(day)){
-                    console.log(day);
-                }
                 day = addDay(day, 1);
             }
             rows.push(
