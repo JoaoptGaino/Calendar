@@ -182,15 +182,74 @@ header {
 }
 
 .calendar .body .temp {
-    bottom: 0.05em;
+    top: 0.05em;
     left: .75em;
     position: absolute;
     color: black;
     font-weight: 400;
 }
 
+.reminder {
+    bottom: 0.05em;
+    position: absolute;
+    text-align: center;
+    word-break: normal;
+    font-size: 10px;
+    width: 5px;
+}
+
 .calendar .body .notSelected {
     display: none;
+}
+
+.calendar .btnReminder {
+    background-color: blue;
+    width: 200px;
+    display: block, ;
+    padding: 0.5em 3em;
+    border: 0.16em solid #FFFFFF;
+    margin: 0 0.3em 0.3em 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    transition: all 0.15s;
+}
+
+.calendar .inputGroup {
+    justify-content: center;
+    text-align: center;
+    display: table;
+    border-collapse: collapse;
+    width: 100%
+}
+
+.calendar .inputGroup>div {
+    display: table-cell;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.calendar .inputGroup label {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    font-weight: bold;
+}
+
+.calendar .inputGroup .inputReminder {
+    justify-content: center;
+    text-align: center;
+    border: 0;
+    display: block;
+    width: 100%;
+    padding: 8px;
+}
+
+.calendar .btnReminder:hover {
+    cursor: pointer;
 }
 
 .calendar .body .disabled {

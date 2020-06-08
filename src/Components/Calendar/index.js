@@ -18,29 +18,29 @@ const Calendar = () => {
     const API_KEY = '0b177100caf71a656b93bfd11c06f133';
     const LOCATION_CODE = '5128581';
     const FULL_API_URL = `${API_URL}?id=${LOCATION_CODE}&appid=${API_KEY}`;
-    const [temperature,setTemperature] = useState();
-    const [weather,setWeather] = useState();
+    const [temperature, setTemperature] = useState();
+    const [weather, setWeather] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [reminder, setReminder] = useState();
+
     axios.get(FULL_API_URL)
-    .then(response => {
-        const temp = response.data.main.temp;
-        const city = response.data.name;
-        /* const date = response.data.dt_txt; */
-        const celsiusTemp = temp-273.15;
-        const desc = response.data.clouds.all;
-        var clouds = 'Sunny';
-        if(desc>50){
-            clouds = 'Cloudy'
-        }
-        const weatherDisplay = `Temperature = ${celsiusTemp.toFixed(1)}ºC , City=${city}, Weather:${clouds}`;
-        console.log(weatherDisplay)
-        setTemperature(celsiusTemp.toFixed(1));
-        setWeather(clouds);
-        console.log(weather);
-        
-    })
-    .catch(error=>console.log(`Error: ${error}`));
+        .then(response => {
+            const temp = response.data.main.temp;
+            const city = response.data.name;
+            /* const date = response.data.dt_txt; */
+            const celsiusTemp = temp - 273.15;
+            const desc = response.data.clouds.all;
+            var clouds = 'Sunny';
+            if (desc > 50) {
+                clouds = 'Cloudy'
+            }
+            const weatherDisplay = `Temperature = ${celsiusTemp.toFixed(1)}ºC , City=${city}, Weather:${clouds}`;
+            setTemperature(celsiusTemp.toFixed(1));
+            setWeather(clouds);
+
+        })
+        .catch(error => console.log(`Error: ${error}`));
 
     const header = () => {
         const dateFormat = "MMMM yyyy";
@@ -97,8 +97,9 @@ const Calendar = () => {
 
         function onDateClick(day) {
             setSelectedDate(day);
+            var teste = 'teste';
+            console.log(teste);
         }
-        
 
         while (day <= endDate) {
             for (let i = 0; i < 7; i++) {
@@ -115,7 +116,8 @@ const Calendar = () => {
                         key={day}
                         onClick={() => onDateClick(auxDay)}>
                         <span className={`number ${weekend(day) ? "weekend" : ""}`}>{formattedDate}</span>
-                        <span className={`${sameDay(day,selectedDate)?"temp":"notSelected"}`}>{weather} {temperature}ºC</span>
+                        <span className={`${sameDay(day, selectedDate) ? "temp" : "notSelected"}`}>{weather} {temperature}ºC</span>
+                        <span className ={`${sameDay(day,selectedDate)? "reminder":"notSelected"}`}>{reminder}</span>
                         <span className="bg">{formattedDate}</span>
                     </div>
                 );
@@ -128,11 +130,26 @@ const Calendar = () => {
         }
         return <div className="body">{rows}</div>
     };
+    const reminders = () => {
+        var element = document.querySelector('#reminder');
+        function addReminder(reminder){
+            setReminder(reminder);
+        }
+        return (
+            <div className="inputGroup">
+                <br/>
+                <label>Add a todo for day {format(selectedDate,'d')} of {format(selectedDate,'MMMM')}</label>
+                <input className="inputReminder" id="reminder" type="text" maxLength="30" placeholder="Add a reminder"/>
+                <button onClick={()=>addReminder(element.value)} className="btnReminder">Add</button>
+            </div>
+        )
+    }
     return (
         <div className="calendar">
             <div>{header()}</div>
             <div>{weekdays()}</div>
             <div>{cells()}</div>
+            <div>{reminders()}</div>
         </div>
     );
 }
