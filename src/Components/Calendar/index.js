@@ -22,7 +22,9 @@ const Calendar = () => {
     const [weather, setWeather] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [reminder, setReminder] = useState();
+    const [reminderss,setReminderss] = useState([]);
+    let arrayReminder=[];
+    
 
     axios.get(FULL_API_URL)
         .then(response => {
@@ -93,12 +95,14 @@ const Calendar = () => {
 
         let days = [];
         let day = startDate;
+        /* let dayReminder = selectedDate; */
         let formattedDate = "";
 
         function onDateClick(day) {
             setSelectedDate(day);
             var teste = 'teste';
             console.log(teste);
+            console.log(reminderss);
         }
 
         while (day <= endDate) {
@@ -117,7 +121,11 @@ const Calendar = () => {
                         onClick={() => onDateClick(auxDay)}>
                         <span className={`number ${weekend(day) ? "weekend" : ""}`}>{formattedDate}</span>
                         <span className={`${sameDay(day, selectedDate) ? "temp" : "notSelected"}`}>{weather} {temperature}ºC</span>
-                        <span className ={`${sameDay(day,selectedDate)? "reminder":"notSelected"}`}>{reminder}</span>
+                        {/* <span className={`${sameDay(day,selectedDate) ? "reminder" : "notSelected"}`}>{}</span> */}
+                        <ul className={`${sameDay(day,selectedDate)?"reminder":"notSelected"}`}>{
+                            <li key={day}>{reminderss}</li>
+                        }
+                        </ul>
                         <span className="bg">{formattedDate}</span>
                     </div>
                 );
@@ -132,15 +140,29 @@ const Calendar = () => {
     };
     const reminders = () => {
         var element = document.querySelector('#reminder');
-        function addReminder(reminder){
-            setReminder(reminder);
+        /* var hour = document.querySelector("#hour") */
+        function addReminder(userReminder) {
+            
+            arrayReminder.push(userReminder);
+            console.log(arrayReminder);
+            setReminderss(arrayReminder);
+            for(let i=0;i<arrayReminder.length;i++){
+                console.log(reminderss);
+            }
+            
+        }
+        function deleteReminder() {
+
         }
         return (
             <div className="inputGroup">
-                <br/>
-                <label>Add a todo for day {format(selectedDate,'d')} of {format(selectedDate,'MMMM')}</label>
-                <input className="inputReminder" id="reminder" type="text" maxLength="30" placeholder="Add a reminder"/>
-                <button onClick={()=>addReminder(element.value)} className="btnReminder">Add</button>
+                <br />
+                <label>Add a todo for day {format(selectedDate, 'd')} of {format(selectedDate, 'MMMM')}</label>
+                <input className="inputReminder" id="reminder" type="text" maxLength="30" placeholder="Add a reminder" />
+                {/* <input className="inputHour" id="hour" type="time" placeholder="Hour" /> */}
+                <button onClick={() => addReminder(element.value)} className="btnReminder">Add</button>
+                {/* , format(selectedDate, 'd'), hour.value */}
+                <button onClick={() => deleteReminder()} className="btnReminder">Delete</button>
             </div>
         )
     }
